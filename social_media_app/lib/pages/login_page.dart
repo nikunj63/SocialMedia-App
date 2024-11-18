@@ -25,6 +25,15 @@ class _LoginPageState extends State<LoginPage> {
       print(e.code);
     }
  }
+ // display a dialog message
+ void displayMessage(String message){
+  showDialog(
+    context: context, 
+    builder: (context)=>AlertDialog(
+      
+    )
+    );
+ }
 
   @override
   Widget build(BuildContext context) {
