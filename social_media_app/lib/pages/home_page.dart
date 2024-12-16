@@ -9,6 +9,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  // user
+  final currentUser = FirebaseAuth.instance.currentUser!;
   // signOut user
 
   void signOut(){
@@ -18,8 +20,10 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[300],
       appBar: AppBar(
-        title: const Text("The Wall"),
+        title: const Text("The Wall",style: TextStyle(color: Colors.white),),
+        backgroundColor: Colors.grey[900],
         actions: [
           // sign out button
           IconButton(
@@ -28,6 +32,19 @@ class _HomePageState extends State<HomePage> {
             )
         ],
 
+      ),
+      body: Center(
+        child: Column(
+          children: [
+            // the wall
+        
+        
+            //put message
+        
+            // logged in as
+            Text("Logged in as: " + currentUser.email!),
+          ],
+        ),
       ),
     );
   }
