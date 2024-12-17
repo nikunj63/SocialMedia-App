@@ -11,6 +11,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   // user
   final currentUser = FirebaseAuth.instance.currentUser!;
+  // text controller
+  final textController =  TextEditingController;
   // signOut user
 
   void signOut(){
