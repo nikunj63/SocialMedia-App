@@ -32,6 +32,7 @@ class _HomePageState extends State<HomePage> {
         'UserEmail': currentUser.email,
         'Message': textController.text,
         'TimeStamp': Timestamp.now(),
+        'Likes': [],
       });
     }
     // clear the text field
@@ -78,7 +79,9 @@ class _HomePageState extends State<HomePage> {
                         final post = snapshot.data!.docs[index];
                         return Wallpost(
                           message: post['Message'], 
-                          user: post['UserEmail'], 
+                          user: post['UserEmail'],
+                          postId: post.id, 
+                          likes: List<String>.from(post['Likes'] ?? []),
                           );
                       }
                       );
