@@ -13,30 +13,69 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   // user
   final currentUser = FirebaseAuth.instance.currentUser!;
+  // all users
+  final userCollection = FirebaseFirestore.instance.collection('Users');
 
   // edit field
   Future<void>editField(String field)async{
-    String newValue = "";
-    await showDialog(
-      context: context, 
-      builder: (context)=> AlertDialog(
-        backgroundColor: Colors.grey[900],
-        title: Text('Edit '+ field,
+    String? newValue = await showDialog(
+  context: context,
+  builder: (context) {
+    String tempValue = ""; // local to the dialog
+
+    return AlertDialog(
+      backgroundColor: Colors.grey[900],
+      title: Text(
+        'Edit $field',
         style: const TextStyle(color: Colors.white),
+      ),
+      content: TextField(
+        autofocus: true,
+        style: const TextStyle(color: Colors.white),
+        decoration: InputDecoration(
+          hintText: "Enter new $field",
+          hintStyle: const TextStyle(color: Colors.grey),
         ),
-        content: TextField(
-          autofocus: true,
-          style: const TextStyle(color: Colors.white),
-          decoration: InputDecoration(
-            hintText: "Enter new $field",
-            hintStyle: const TextStyle(color: Colors.grey)
-          ),
-          onChanged: (value){
-            newValue =  value;
-          },
-        ),
-      ) 
+        onChanged: (value) {
+          tempValue = value;
+        },
+      ),
+        actions: [
+          // cancel button
+          TextButton(
+            onPressed: ()=> Navigator.pop(context), 
+            child: const Text('Cancel' , 
+            style:TextStyle(
+              color: Colors.white
+            )
+            )),
+
+
+          // save button
+          TextButton(
+            onPressed: ()=> Navigator.pop(context, tempValue), 
+            child: const Text('Save' , 
+            style:TextStyle(
+              color: Colors.white
+            )
+            )),
+        ],
       );
+  } 
+    );
+
+      // updating values in firestore
+      if (newValue != null) {
+  final userEmail = FirebaseAuth.instance.currentUser!.email;
+
+  await FirebaseFirestore.instance
+      .collection('Users')
+      .doc(userEmail)
+      .update({ field: newValue }) //  dynamic field update
+      .then((_) => print("Field '$field' updated to: $newValue"))
+      .catchError((error) => print("Error updating field: $error"));
+}
+
   }
 
   @override
