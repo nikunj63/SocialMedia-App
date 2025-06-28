@@ -71,7 +71,7 @@ class _ProfilePageState extends State<ProfilePage> {
   await FirebaseFirestore.instance
       .collection('Users')
       .doc(userEmail)
-      .update({ field: newValue }) //  dynamic field update
+      .update({ field: newValue }) 
       .then((_) => print("Field '$field' updated to: $newValue"))
       .catchError((error) => print("Error updating field: $error"));
 }
